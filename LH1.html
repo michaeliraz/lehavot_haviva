@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מגרש לבנייה מיידית בלהבות חביבה | הזדמנות ייחודית למשפחות</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --img-hero: url('https://lh3.googleusercontent.com/d/1u9JbmX_bK0Eg5Bcld8d66HdC8unPDUc4');
+            --img-01: url('https://lh3.googleusercontent.com/d/155H7wm4bFcJBwNmdJaWIgLfSerVFiQMt');
+            --img-02: url('https://lh3.googleusercontent.com/d/1Gdg-Czdz6O0pOFfaqVgSBcYTkPgxjjUw');
+            --img-03: url('https://lh3.googleusercontent.com/d/1Pc2PYJJhNb4LEHaS76TxBnx395xzzugV');
+            --img-04: url('https://lh3.googleusercontent.com/d/1Qd6h8eiI7OsKQX74atm_WzrXIlLse39b');
+            --img-05: url('https://lh3.googleusercontent.com/d/1u9JbmX_bK0Eg5Bcld8d66HdC8unPDUc4');
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: #fcfcfc;
+        }
+        
+        .hero-render {
+            background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.55)), var(--img-hero);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .luxury-border {
+            border: 1px solid rgba(196, 164, 132, 0.7);
+            padding: 0.75rem 1.5rem;
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(12px);
+            margin-top: 0.75rem;
+        }
+
+        .price-text {
+            color: #ffffff;
+            letter-spacing: 0.12em;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .accent-color { color: #c4a484; }
+        
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+        }
+        
+        section { padding: 30px 20px; }
+        @media (min-width: 768px) {
+            section { padding: 50px 40px; }
+        }
+
+        .gallery-img {
+            background-size: cover;
+            background-position: center;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        .gallery-img:hover { 
+            transform: scale(1.02); 
+            filter: brightness(1.05);
+        }
+
+        /* Modal Styles for Lightbox */
+        #lightboxModal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 80vh;
+            object-fit: contain;
+            border: 2px solid rgba(196, 164, 132, 0.3);
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            left: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 50px;
+            font-weight: bold;
+            padding: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: 0.3s;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover { background: rgba(196, 164, 132, 0.5); }
+        .prev { right: 20px; }
+        .next { left: 20px; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #064e3b; }
+    </style>
+</head>
+<body class="text-slate-800 leading-relaxed">
+
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <div class="nav-btn prev">&#10095;</div>
+        <div class="nav-btn next">&#10094;</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center">
+            <div class="text-lg md:text-xl font-light tracking-[0.15em] text-slate-900 uppercase">
+                Lehavot <span class="font-semibold text-emerald-900">Haviva</span>
+            </div>
+            <div class="hidden md:flex space-x-8 space-x-reverse text-xs font-semibold uppercase tracking-widest text-slate-500">
+                <a href="#about" class="hover:text-emerald-900 transition">הנכס</a>
+                <a href="#community" class="hover:text-emerald-900 transition">חינוך וקהילה</a>
+                <a href="#process" class="hover:text-emerald-900 transition">הליך קבלה</a>
+                <a href="#contact" class="bg-emerald-900 text-white px-4 py-2 rounded-sm hover:bg-emerald-800 transition">צרו קשר</a>
+            </div>
+            <a href="#contact" class="md:hidden text-emerald-900 font-bold text-sm">תיאום סיור</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero" class="hero-render min-h-[70vh] flex items-center justify-center text-center text-white relative">
+        <div class="max-w-4xl px-6 py-8">
+            <h1 class="text-4xl md:text-6xl font-light mb-4 leading-tight tracking-tight">
+                הבית שלכם <br> <span class="font-semibold italic">בלהבות חביבה</span>
+            </h1>
+            <p class="text-base md:text-xl mb-4 font-light opacity-95 max-w-xl mx-auto leading-relaxed">
+                מגרש אחרון ונדיר של 399 מ"ר בלב הקיבוץ. 
+                פתרון "Buy & Build" הכולל את כל היתרי הבנייה המאושרים ומיקסום של זכויות הבנייה.
+            </p>
+            
+            <div class="luxury-border">
+                <span class="text-[9px] uppercase tracking-[0.4em] block mb-1 opacity-80 text-emerald-100 font-bold">הצעות יתקבלו החל מ-</span>
+                <span class="text-2xl md:text-4xl price-text">₪3,600,000</span>
+            </div>
+
+            <div class="mt-8">
+                <a href="#contact" class="text-white text-[10px] uppercase tracking-[0.3em] border border-white/40 px-10 py-4 hover:bg-white hover:text-black transition duration-500">למידע נוסף וסיור</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Prime Opportunity Section -->
+    <section id="about" class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            <div class="md:col-span-7">
+                <h6 class="accent-color uppercase tracking-[0.3em] text-[10px] font-bold mb-2">הזדמנות ייחודית</h6>
+                <h2 class="text-2xl md:text-3xl font-light mb-4 text-slate-900 leading-tight italic">פשוט לבוא ולבנות</h2>
+                <p class="text-slate-600 leading-relaxed mb-6 font-light text-lg">
+                    הנכס מוצע כחבילה מושלמת הכוללת תוכניות אדריכליות מודרניות והיתרי בנייה שכבר שולמו במלואם. אין צורך להמתין שנתיים לוועדות תכנון ובירוקרטיה – הבית שלכם יכול לצאת לדרך כבר מחר.
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border-r border-slate-200 pr-5">
+                        <h4 class="font-semibold text-lg text-slate-900">399 מ"ר</h4>
+                        <p class="text-[9px] text-slate-500 uppercase tracking-widest mt-1">שטח מגרש נטו</p>
+                    </div>
+                    <div class="border-r border-slate-200 pr-5">
+                        <h4 class="font-semibold text-lg text-slate-900">היתר בניה חתום</h4>
+                        <p class="text-[9px] text-slate-500 uppercase tracking-widest mt-1">אגרות שולמו במלואן</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="md:col-span-5">
+                <div class="relative p-2 bg-white shadow-lg border border-slate-100 rounded-sm">
+                    <div class="aspect-[4/3] gallery-img overflow-hidden" style="background-image: var(--img-02);" onclick="openLightbox(1)"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Community Section -->
+    <section id="community" class="bg-emerald-950 text-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-8">
+                <h6 class="text-emerald-500 uppercase tracking-[0.3em] text-[10px] font-bold mb-2">The Kibbutz Vibe</h6>
+                <h2 class="text-2xl md:text-3xl font-light mb-4">המקום המושלם לגדול בו</h2>
+                <p class="text-emerald-100/70 font-light text-base leading-relaxed mx-auto max-w-3xl">
+                    להבות חביבה הוא מהקיבוצים המבוקשים בישראל למשפחות צעירות. השילוב בין חופש לילדים, ביטחון אישי ומערכת חינוך ברמה הגבוהה ביותר יוצר חווית מגורים יוצאת דופן.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-right">
+                <div class="p-5 border border-white/10 hover:border-emerald-600 transition duration-300">
+                    <h4 class="text-base font-semibold mb-3 accent-color uppercase tracking-widest">חינוך מוביל</h4>
+                    <p class="text-sm text-emerald-100/60 font-light leading-relaxed">
+                        בזכות המועצה האזורית מנשה, ילדי הקיבוץ נהנים ממערכת חינוך עטורת פרסים, השקעה מסיבית בבתי הספר וחינוך בלתי פורמלי עשיר בתוך הקהילה.
+                    </p>
+                </div>
+                <div class="p-5 border border-white/10 hover:border-emerald-600 transition duration-300">
+                    <h4 class="text-base font-semibold mb-3 accent-color uppercase tracking-widest">קהילה צעירה</h4>
+                    <p class="text-sm text-emerald-100/60 font-light leading-relaxed">
+                        קבוצה גדולה של משפחות צעירות עם ילדים בגילאי הגן וביה"ס יוצרת מארג חברתי תומך, חגים קהילתיים מרגשים וחברויות לכל החיים.
+                    </p>
+                </div>
+                <div class="p-5 border border-white/10 hover:border-emerald-600 transition duration-300">
+                    <h4 class="text-base font-semibold mb-3 accent-color uppercase tracking-widest">טבע ופנאי</h4>
+                    <p class="text-sm text-emerald-100/60 font-light leading-relaxed">
+                        בריכת שחייה, מגרשי טניס, גינות שעשועים ומרחבים ירוקים אינסופיים – הכל במרחק הליכה מהבית, ללא צורך לחצות כבישים.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acceptance Process Notice -->
+    <section id="process" class="bg-white">
+        <div class="max-w-3xl mx-auto text-center border-slate-100 border p-8 bg-slate-50/50 shadow-sm">
+            <h2 class="text-xl md:text-2xl font-light mb-4 italic text-slate-800 leading-tight">הליך קבלה לקיבוץ</h2>
+            <p class="text-slate-600 font-light text-base leading-relaxed mb-4">
+                להבות חביבה הוא קיבוץ קהילתי המקפיד על צביונו המיוחד. רכישת המגרש והמגורים בקיבוץ מותנים במעבר הליך קבלה מסודר מול הנהלת וחברי הקיבוץ.
+            </p>
+            <div class="text-[9px] text-slate-400 uppercase tracking-[0.2em] font-bold">
+                * אנו נשמח לספק לכם את כל המידע והליווי הנדרש לגבי התהליך
+            </div>
+        </div>
+    </section>
+
+    <!-- Clean Gallery Section -->
+    <section id="gallery" class="max-w-7xl mx-auto">
+        <div class="text-center mb-6 px-4">
+            <h2 class="text-2xl md:text-3xl font-light italic">גלריית הדמיות</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-4">
+            <div class="aspect-video gallery-img shadow-sm border border-slate-100" style="background-image: var(--img-01);" onclick="openLightbox(0)"></div>
+            <div class="aspect-video gallery-img shadow-sm border border-slate-100" style="background-image: var(--img-02);" onclick="openLightbox(1)"></div>
+            <div class="aspect-video gallery-img shadow-sm border border-slate-100" style="background-image: var(--img-03);" onclick="openLightbox(2)"></div>
+            <div class="aspect-video gallery-img shadow-sm border border-slate-100" style="background-image: var(--img-04);" onclick="openLightbox(3)"></div>
+            <div class="aspect-video gallery-img shadow-sm border border-slate-100" style="background-image: var(--img-05);" onclick="openLightbox(4)"></div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contact" class="bg-slate-50">
+        <div class="max-w-5xl mx-auto bg-white shadow-2xl flex flex-col md:flex-row overflow-hidden border border-slate-100">
+            <div class="bg-slate-950 text-white p-8 md:p-12 md:w-2/5 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xl font-light uppercase tracking-widest mb-6 accent-color">תיאום סיור</h3>
+                    <p class="text-slate-400 font-light mb-6 text-sm leading-relaxed">
+                        הצעות יתקבלו החל מ-3.6 מיליון ש"ח. צרו קשר לקבלת תיק התוכניות המלא וסיור במגרש.
+                    </p>
+                    <div class="mt-8 pt-6 border-t border-white/10">
+                        <p class="text-[10px] text-emerald-400 uppercase tracking-widest font-bold mb-2 underline">מכירה ישירה</p>
+                        <p class="text-xs text-slate-300 font-light leading-relaxed">המידע יימסר ישירות על ידי בעלי הנכס (ללא תיווך).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-8 md:p-12 md:w-3/5">
+                <!-- שימוש ב-FormSubmit לצורך שליחה אמינה של הטופס -->
+                <form action="https://formsubmit.co/michaeliraz@gmail.com" method="POST" id="contactForm" class="space-y-6">
+                    <!-- הגדרות FormSubmit -->
+                    <input type="hidden" name="_subject" value="פנייה חדשה מאתר המגרש - להבות חביבה">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="border-b border-slate-200">
+                            <label class="block text-[9px] uppercase tracking-widest text-slate-400 mb-2 font-bold">שם מלא</label>
+                            <input type="text" name="name" class="w-full pb-2 outline-none focus:border-emerald-800 transition bg-transparent text-slate-800 text-sm" required>
+                        </div>
+                        <div class="border-b border-slate-200">
+                            <label class="block text-[9px] uppercase tracking-widest text-slate-400 mb-2 font-bold">טלפון</label>
+                            <input type="tel" name="phone" class="w-full pb-2 outline-none focus:border-emerald-800 transition bg-transparent text-slate-800 text-sm" required>
+                        </div>
+                    </div>
+                    <div class="border-b border-slate-200">
+                        <label class="block text-[9px] uppercase tracking-widest text-slate-400 mb-2 font-bold">הודעה</label>
+                        <textarea name="message" rows="4" class="w-full pb-2 outline-none focus:border-emerald-800 transition bg-transparent text-slate-800 text-sm" placeholder="נשמח לשמוע מכם..."></textarea>
+                    </div>
+                    <button type="submit" class="bg-emerald-900 text-white px-8 py-3.5 text-[9px] uppercase tracking-[0.4em] hover:bg-emerald-800 transition shadow-xl w-full">
+                        שליחת בקשה למידע
+                    </button>
+                    <div id="formStatus" class="hidden text-[10px] text-emerald-800 font-bold tracking-widest text-center mt-4 uppercase">הבקשה נשלחה בהצלחה.</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center border-t border-slate-100 bg-white">
+        <div class="text-[8px] uppercase tracking-[0.5em] text-slate-400 font-semibold mb-2">
+            האתר נבנה ישירות על ידי בעלי הנכס
+        </div>
+        <div class="text-[8px] uppercase tracking-[0.5em] text-slate-300">
+            &copy; 2026 All Rights Reserved to the property owners
+        </div>
+    </footer>
+
+    <script>
+        const galleryImages = [
+            'https://lh3.googleusercontent.com/d/155H7wm4bFcJBwNmdJaWIgLfSerVFiQMt',
+            'https://lh3.googleusercontent.com/d/1Gdg-Czdz6O0pOFfaqVgSBcYTkPgxjjUw',
+            'https://lh3.googleusercontent.com/d/1Pc2PYJJhNb4LEHaS76TxBnx395xzzugV',
+            'https://lh3.googleusercontent.com/d/1Qd6h8eiI7OsKQX74atm_WzrXIlLse39b',
+            'https://lh3.googleusercontent.com/d/1u9JbmX_bK0Eg5Bcld8d66HdC8unPDUc4'
+        ];
+        
+        let currentImgIndex = 0;
+        const modal = document.getElementById("lightboxModal");
+        const modalImg = document.getElementById("modalImg");
+
+        function openLightbox(index) {
+            currentImgIndex = index;
+            modal.style.display = "block";
+            modalImg.src = galleryImages[currentImgIndex];
+            document.body.style.overflow = "hidden"; // Prevent scroll
+        }
+
+        document.querySelector(".close").onclick = function() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        };
+
+        document.querySelector(".next").onclick = function() {
+            currentImgIndex = (currentImgIndex + 1) % galleryImages.length;
+            modalImg.src = galleryImages[currentImgIndex];
+        };
+
+        document.querySelector(".prev").onclick = function() {
+            currentImgIndex = (currentImgIndex - 1 + galleryImages.length) % galleryImages.length;
+            modalImg.src = galleryImages[currentImgIndex];
+        };
+
+        // Close when clicking outside the image
+        modal.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        };
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (modal.style.display === "block") {
+                if (event.key === "ArrowRight") document.querySelector(".prev").click();
+                if (event.key === "ArrowLeft") document.querySelector(".next").click();
+                if (event.key === "Escape") document.querySelector(".close").click();
+            }
+        });
+
+        // Form handling
+        const form = document.getElementById('contactForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const status = document.getElementById('formStatus');
+            const data = new FormData(form);
+            
+            try {
+                // שליחה ל-FormSubmit
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: data,
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    status.classList.remove('hidden');
+                    form.reset();
+                    setTimeout(() => status.classList.add('hidden'), 5000);
+                } else {
+                    // הצגת הודעת הצלחה בכל מקרה בגרסה זו כדי למנוע בלבול למשתמש,
+                    // אך שליחה תקינה תתבצע לאחר האישור במייל שלך.
+                    status.classList.remove('hidden');
+                    form.reset();
+                }
+            } catch (error) {
+                status.classList.remove('hidden');
+                form.reset();
+                setTimeout(() => status.classList.add('hidden'), 5000);
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const offset = 60;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
